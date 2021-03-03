@@ -18,12 +18,17 @@ public class GNSProvider implements ICapabilityProvider, INBTSerializable<NBTTag
 		this.playerGNS = playerAether;
 	}
 
+	// implements ICapabilityProvider
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing)
 	{
-		return capability == GNSManager.PLAYER;
+		if(capability == GNSManager.PLAYER) return true;
+//		return super.hasCapability(capability, facing);
+		return false;
 	}
 
+	// implements ICapabilityProvider
+	// реализована только одна возможность - PlayerGNS
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) 
@@ -33,6 +38,7 @@ public class GNSProvider implements ICapabilityProvider, INBTSerializable<NBTTag
 			return (T) this.playerGNS;
 		}
 
+		//return super.getCapability(capability, facing);
 		return null;
 	}
 

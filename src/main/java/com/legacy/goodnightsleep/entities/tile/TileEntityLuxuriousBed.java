@@ -27,4 +27,6 @@ public class TileEntityLuxuriousBed extends TileEntity
     {
     	return new ItemStack(ItemsGNS.luxurious_bed_item, 1);
     }
+
+    // нет ни getBedType() ни setBedType()
 }
