@@ -28,13 +28,26 @@ public class GoodNightSleep
 	@SidedProxy(modId = VariableConstants.MODID, clientSide = VariableConstants.CLIENT_PROXY_LOCATION, serverSide = VariableConstants.COMMON_PROXY_LOCATION)
 	public static CommonProxy proxy;
 
+	/**
+	 * Этот метод исполняется исключительно на стороне клиента (почему??)
+	 */
 	@EventHandler
 	public void preInitialization(FMLPreInitializationEvent event)
 	{
+		System.out.println("*1* preInitialization() started...");
 		GNSConfig.init(event.getModConfigurationDirectory());
-		VariableConstants.registerEvent(new RegistryEventHandler());
-		VariableConstants.registerEvent(new GNSEntityEvents());
+		// регистрация событий регистрации, поэтому помещается в преинит
+		System.out.println("*2* GNSConfig.init() done!");
+
+		CommonProxy.registerEvent(new RegistryEventHandler());
+		// перехват событий спавна сущностей - внутри изменение их параметров (сюда же можно добавить наши фишки!?)
+		// похоже, причина тут: зарегили хэндлер, но еще не готов преинит
+		System.out.println("*3* RegistryEventHandler registered!");		
+		CommonProxy.registerEvent(new GNSEntityEvents());
+		System.out.println("*4* GNSEntityEvents registered...");
+		// А может, просто рано вызвали??
 		proxy.preInitialization();
+		System.out.println("*5* preInitialization() done!");		
 	}
 
 	@EventHandler

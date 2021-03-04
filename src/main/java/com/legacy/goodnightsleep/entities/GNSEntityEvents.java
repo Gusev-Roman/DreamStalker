@@ -1,8 +1,10 @@
 package com.legacy.goodnightsleep.entities;
 
 import com.legacy.goodnightsleep.entities.nightmare.EntityTormenter;
+import com.legacy.goodnightsleep.capablilities.player.PlayerModifierProvider;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -17,6 +19,9 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
+
+import static com.legacy.goodnightsleep.capabilities.GNSCapabilityHandler.*;
 
 public class GNSEntityEvents
 {
@@ -64,9 +69,22 @@ public class GNSEntityEvents
 	
 	private void entityUpdateEvents(EntityLiving entity, Event event)
 	{
+		// без подписки, вызывается из LivingUpdateEvent
 	}
 	
 	private void entityDeathEvents(EntityLiving entity, Event event)
 	{
+		// без подписки, вызывается из LivingDeathEvent
+		// тут нужно обрабатывать игроков, умерших во сне
+	}
+
+	    // подпишемся только на события, связанные с вновь создаваемыми сущностями
+	@SubscribeEvent
+	public void attachCapability(AttachCapabilitiesEvent<Entity> event) {
+		if(event.getObject() instanceof EntityPlayer && !event.getObject().hasCapability(CAPABILITY_PLAYERMOD, null)){
+			System.out.println("*** player capability attached! it's newly added player?!");
+			// вероятно это момент входа в игру, тут нужно выставить начальное значение current_dim
+			event.addCapability(PLAYER_CAP, new PlayerModifierProvider(CAPABILITY_PLAYERMOD, null));
+		}
 	}
 }

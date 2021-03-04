@@ -4,7 +4,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import com.legacy.goodnightsleep.GoodNightSleep;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 
 public class VariableConstants 
@@ -20,17 +21,10 @@ public class VariableConstants
 
 	public static final String COMMON_PROXY_LOCATION = "com.legacy.goodnightsleep.CommonProxy";
 
-	public static Logger log = Logger.getLogger(GoodNightSleep.class.getName());
+	public static Logger log = LogManager.getLogger(GoodNightSleep.class.getName());
 
 	public static ResourceLocation locate(String name)
 	{
 		return new ResourceLocation(MODID, name);
-	}
-
-	@SuppressWarnings("deprecation")
-	public static void registerEvent(Object obj)
-	{
-		FMLCommonHandler.instance().bus().register(obj);
-		MinecraftForge.EVENT_BUS.register(obj);
 	}
 }

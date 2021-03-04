@@ -13,7 +13,8 @@ import com.legacy.goodnightsleep.registry.VariableConstants;
 
 public class GNSCapabilityHandler {
 
-    //public static final ResourceLocation BANE_CAP = new ResourceLocation(References.modId, "baneMod");
+    
+    // это какой-то тег, вроде не имеет отношения к файлам ресурсов
     public static final ResourceLocation PLAYER_CAP = new ResourceLocation(VariableConstants.MODID, "playerMod");
     //public static final ResourceLocation SHEAR_CAP = new ResourceLocation(References.modId, "shearable");
 
@@ -30,12 +31,17 @@ public class GNSCapabilityHandler {
     @CapabilityInject(IBaneModifier.class)
     public static Capability<IBaneModifier> CAPABILITY_BANE = null;
     */
+
+    // при инжектировании тут должно оказаться ненулевое значение!
     @CapabilityInject(IPlayerModifier.class)
     public static Capability<IPlayerModifier> CAPABILITY_PLAYERMOD = null;
 
     public static void register(){
+        System.out.println("GNSCapabilityHandler::register()...");
+        // кроме интерфейса, фактори и сторедж еще понадобится CapabilityProvider. Как он цепляется к остальным??
         CapabilityManager.INSTANCE.register(IPlayerModifier.class, new PlayerModifierStorage(), new PlayerModifierFactory());
 
         MinecraftForge.EVENT_BUS.register(new GNSCapabilityHandler());
+        System.out.println("$$$ GNSCapabilityHandler registered, CAPABILITY_PLAYERMOD = " + CAPABILITY_PLAYERMOD);
     }
 }

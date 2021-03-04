@@ -18,6 +18,7 @@ public class PlayerModifierStorage implements Capability.IStorage<IPlayerModifie
         NBTTagCompound nbt = new NBTTagCompound();
 
         nbt.setInteger("ability", instance.getAbility());
+        nbt.setInteger("current_dim", instance.getCurDim());
         // здесь же нужно сохранять и восстанавливать "теневой" инвентарь игрока (а как быть с расширенным инвентарем?)
 
         return nbt;
@@ -27,7 +28,7 @@ public class PlayerModifierStorage implements Capability.IStorage<IPlayerModifie
     public void readNBT(Capability<IPlayerModifier> capability, IPlayerModifier instance, EnumFacing side, NBTBase nbtIn) {
         if(nbtIn instanceof NBTTagCompound){
             NBTTagCompound nbt = ((NBTTagCompound) nbtIn);
-
+            instance.setCurDim(nbt.getInteger("current_dim"));
             instance.setAbility(nbt.getInteger("ability"));
         }
     }
