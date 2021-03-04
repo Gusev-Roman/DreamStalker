@@ -3,11 +3,6 @@ package com.legacy.goodnightsleep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Mod;
-
-import com.legacy.goodnightsleep.capabilities.GNSCapabilityHandler;
-import com.legacy.goodnightsleep.registry.VariableConstants;
-
 import javax.annotation.Nullable;
 
 public class CommonProxy 
@@ -15,9 +10,8 @@ public class CommonProxy
 
 	public void preInitialization() {
 		//VariableConstants.log.info("Registering player Capabilities...");
-		// сюда не попадает!
-		System.out.println("*** preInitialization(): Registering GNSCapabilityHandler...");
-		GNSCapabilityHandler.register();
+		// сюда попадет только при старте выделенного сервера
+		System.out.println("*** server-only preInitialization()");
 	}
 
 	public void initialization() { }

@@ -1,7 +1,7 @@
 package com.legacy.goodnightsleep.entities;
 
 import com.legacy.goodnightsleep.entities.nightmare.EntityTormenter;
-import com.legacy.goodnightsleep.capablilities.player.PlayerModifierProvider;
+import com.legacy.goodnightsleep.capabilities.player.PlayerModifierProvider;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.Entity;
@@ -81,10 +81,17 @@ public class GNSEntityEvents
 	    // подпишемся только на события, связанные с вновь создаваемыми сущностями
 	@SubscribeEvent
 	public void attachCapability(AttachCapabilitiesEvent<Entity> event) {
-		if(event.getObject() instanceof EntityPlayer && !event.getObject().hasCapability(CAPABILITY_PLAYERMOD, null)){
-			System.out.println("*** player capability attached! it's newly added player?!");
-			// вероятно это момент входа в игру, тут нужно выставить начальное значение current_dim
-			event.addCapability(PLAYER_CAP, new PlayerModifierProvider(CAPABILITY_PLAYERMOD, null));
+		if(event.getObject() instanceof EntityPlayer) {
+			EntityPlayer man = (EntityPlayer)event.getObject();
+			if(!man.getEntityWorld().isRemote) {
+				// server only
+				if(!event.getObject().hasCapability(CAPABILITY_PLAYERMOD, null)) {
+					System.out.println("*** player capability attached! it's newly added player?!");
+					// вероятно это момент входа в игру, тут нужно выставить начальное значение current_dim
+					// сервер ловит этот эвент один раз. Клиент - несколько
+					event.addCapability(PLAYER_CAP, new PlayerModifierProvider(CAPABILITY_PLAYERMOD, null));
+				}
+			}
 		}
 	}
 }

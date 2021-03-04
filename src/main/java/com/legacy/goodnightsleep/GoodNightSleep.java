@@ -1,5 +1,6 @@
 package com.legacy.goodnightsleep;
 
+import com.legacy.goodnightsleep.capabilities.GNSCapabilityHandler;
 import com.legacy.goodnightsleep.entities.GNSEntities;
 import com.legacy.goodnightsleep.entities.GNSEntityEvents;
 import com.legacy.goodnightsleep.entities.tile.TileEntityRegistry;
@@ -34,20 +35,17 @@ public class GoodNightSleep
 	@EventHandler
 	public void preInitialization(FMLPreInitializationEvent event)
 	{
-		System.out.println("*1* preInitialization() started...");
+		System.out.println("preInitialization() started...");
 		GNSConfig.init(event.getModConfigurationDirectory());
 		// регистрация событий регистрации, поэтому помещается в преинит
-		System.out.println("*2* GNSConfig.init() done!");
-
 		CommonProxy.registerEvent(new RegistryEventHandler());
 		// перехват событий спавна сущностей - внутри изменение их параметров (сюда же можно добавить наши фишки!?)
 		// похоже, причина тут: зарегили хэндлер, но еще не готов преинит
-		System.out.println("*3* RegistryEventHandler registered!");		
 		CommonProxy.registerEvent(new GNSEntityEvents());
-		System.out.println("*4* GNSEntityEvents registered...");
 		// А может, просто рано вызвали??
 		proxy.preInitialization();
-		System.out.println("*5* preInitialization() done!");		
+		GNSCapabilityHandler.register();
+		System.out.println("preInitialization() done!");		
 	}
 
 	@EventHandler
