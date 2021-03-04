@@ -4,6 +4,7 @@ import com.legacy.goodnightsleep.blocks.BlocksGNS;
 import com.legacy.goodnightsleep.items.tools.ItemGNSHoe;
 import com.legacy.goodnightsleep.player.PlayerGNS;
 import com.legacy.goodnightsleep.player.capability.GNSProvider;
+import com.legacy.goodnightsleep.registry.VariableConstants;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -32,7 +33,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 public class GNSEventHandler 
 {	
-	private static final ResourceLocation PLAYER_LOCATION = new ResourceLocation("goodnightsleep", "gns_player");
+	private static final ResourceLocation PLAYER_LOCATION = new ResourceLocation(VariableConstants.MODID, "gns_player");
 
 	//private final Minecraft mc = FMLClientHandler.instance().getClient();
 
@@ -47,10 +48,14 @@ public class GNSEventHandler
 	// предметы, перенесенные в сон, должны быть возвращаемыми. Предметы, обретенные во сне - только на высоком уровне способности (включая трансмутацию и порчу).
 	@SubscribeEvent
 	public void onJoin(EntityJoinWorldEvent event){
+		System.out.println("ucha!");
+
 		if(!event.getWorld().isRemote){	// server only
+			System.out.println("EntityJoinWorldEvent");
 			if(event.getEntity() instanceof EntityPlayer){
 				EntityPlayer me = (EntityPlayer)event.getEntity();
-				System.out.println("Player [" + me.getDisplayNameString() + "] join to world");
+				int dim = event.getWorld().provider.getDimension();
+				System.out.println("Player [" + me.getDisplayNameString() + "] join to world [" + dim + "]");
 			}
 		}
 	}
@@ -62,7 +67,7 @@ public class GNSEventHandler
 	public void onTravelToDimensionEvent(EntityTravelToDimensionEvent event)
 	{
 		Entity entity = event.getEntity();
-		 boolean dreamnow = false;
+		//boolean dreamnow = false;
 
 		 System.out.println("onTravelToDimensionEvent()");
 
@@ -71,7 +76,7 @@ public class GNSEventHandler
 			int dest = event.getDimension();
 			// сравнить dest с id миров сновидений
 			if(dest == GNSConfig.getDreamDimensionID() || dest == GNSConfig.getNightmareDimensionID()){
-				dreamnow = true;
+				//dreamnow = true;
 				// начинается сон, инвентарь должен быть перемещен в теневое хранилище
 				// прикол в том, что помимо базового инвентаря игрок может иметь кучу дополнительных способностей
 				// определенные предметы из этого мода должны сохраняться во сне (например, таймер, отображающий время до пробуждения и дающий возможность проснуться до срока)
