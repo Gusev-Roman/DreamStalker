@@ -12,6 +12,7 @@ public class CommonProxy
 
 	@Mod.EventHandler
 	public void preInitialization() {
+		VariableConstants.log.info("Registering player Capabilities...");
 		GNSCapabilityHandler.register();
 	}
 

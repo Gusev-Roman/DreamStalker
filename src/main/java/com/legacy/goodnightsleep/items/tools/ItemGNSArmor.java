@@ -19,7 +19,7 @@ public class ItemGNSArmor extends ItemArmor
 		this.armorName = name;
 		this.setTranslationKey(name);
 		this.setCreativeTab(GNSCreativeTabs.armor);
-		//this.setRegistryName(new ResourceLocation("goodnightsleep", "textures/armor/" + name));
+		//this.setRegistryName(new ResourceLocation(VariableConstants.MODID, "textures/armor/" + name));
 	}
 	
 	@Override
