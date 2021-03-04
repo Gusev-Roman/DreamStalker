@@ -82,6 +82,7 @@ public class BlocksGNS
 			return;
 		}
 		
+		// блоки кровати не заносятся в креативтабы, для этого есть кровати-итемы!
 		luxurious_bed = registerNoTab("luxurious_bed", new BlockGNSBed()).setCreativeTab(null);
 		wretched_bed = registerNoTab("wretched_bed", new BlockGNSBed()).setCreativeTab(null);
 		strange_bed = registerNoTab("strange_bed", new BlockGNSBed()).setCreativeTab(null);
@@ -131,6 +132,7 @@ public class BlocksGNS
 		lolipop_bush = register("lolipop_bush", new BlockGNSFlower());
 		dead_flower = register("dead_flower", new BlockGNSFlower());
 		
+		// растение не может существовать в форме итема, но отсутствие соответстувющего json-файла приводит к ошибке
 		rainbow_crop = registerNoTab("rainbow_crop", new BlockGNSRainbowCrop()).setCreativeTab(null);
 
 		dream_fence = register("dream_fence", new BlockGNSFence());

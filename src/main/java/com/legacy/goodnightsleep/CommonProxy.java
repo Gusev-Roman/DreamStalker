@@ -3,11 +3,17 @@ package com.legacy.goodnightsleep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+
+import com.legacy.goodnightsleep.capabilities.GNSCapabilityHandler;
 
 public class CommonProxy 
 {
 
-	public void preInitialization() { }
+	@Mod.EventHandler
+	public void preInitialization() {
+		GNSCapabilityHandler.register();
+	}
 
 	public void initialization() { }
 

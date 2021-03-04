@@ -11,7 +11,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityStrangeBed extends TileEntity
 {
-
+    /**
+     * тут тоже нет ни getBedType() ни setBedType()
+     */
     public SPacketUpdateTileEntity getUpdatePacket()
     {
         return new SPacketUpdateTileEntity(this.pos, 11, this.getUpdateTag());

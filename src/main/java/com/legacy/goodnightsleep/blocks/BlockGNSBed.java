@@ -346,6 +346,7 @@ public class BlockGNSBed extends BlockHorizontal implements ITileEntityProvider
 
     /**
      * Returns a new instance of a block's tile entity class. Called on placing the block.
+     * !!! implements @ITileEntityProvider
      */
     public TileEntity createNewTileEntity(World worldIn, int meta)
     {

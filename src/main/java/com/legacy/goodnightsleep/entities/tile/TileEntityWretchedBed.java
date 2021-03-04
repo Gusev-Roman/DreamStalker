@@ -25,10 +25,10 @@ public class TileEntityWretchedBed extends TileEntity
     {
         return BlockGNSBed.isHeadPiece(this.getBlockMetadata());
     }
-
+    // исправил самозацикливание (а это полее вообще тут нужно??)
     public int getBedType()
     {
-        return this.getBedType();
+        return this.bedType;
     }
 
     public void setBedType(int type)
