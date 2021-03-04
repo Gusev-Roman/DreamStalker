@@ -78,7 +78,7 @@ public class GNSEntityEvents
 		// тут нужно обрабатывать игроков, умерших во сне
 	}
 
-	    // подпишемся только на события, связанные с вновь создаваемыми сущностями
+	// подпишемся только на события, связанные с вновь создаваемыми сущностями
 	@SubscribeEvent
 	public void attachCapability(AttachCapabilitiesEvent<Entity> event) {
 		if(event.getObject() instanceof EntityPlayer) {
@@ -86,7 +86,7 @@ public class GNSEntityEvents
 			if(!man.getEntityWorld().isRemote) {
 				// server only
 				if(!event.getObject().hasCapability(CAPABILITY_PLAYERMOD, null)) {
-					System.out.println("*** player capability attached! it's newly added player?!");
+					System.out.println("*** player capability attached at server side! it's newly added player?!");
 					// вероятно это момент входа в игру, тут нужно выставить начальное значение current_dim
 					// сервер ловит этот эвент один раз. Клиент - несколько
 					event.addCapability(PLAYER_CAP, new PlayerModifierProvider(CAPABILITY_PLAYERMOD, null));

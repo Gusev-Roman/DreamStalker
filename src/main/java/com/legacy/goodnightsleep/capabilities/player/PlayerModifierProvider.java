@@ -1,4 +1,4 @@
-package com.legacy.goodnightsleep.capablilities.player;
+package com.legacy.goodnightsleep.capabilities.player;
 
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.EnumFacing;
@@ -49,7 +49,6 @@ public class PlayerModifierProvider implements ICapabilitySerializable<NBTBase>,
     @Nullable
     @Override
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        // В этой строке падает NullPointer
         return capability == CAPABILITY_PLAYERMOD ? CAPABILITY_PLAYERMOD.<T> cast(instance) : null;
     }
 

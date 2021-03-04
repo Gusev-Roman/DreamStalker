@@ -1,6 +1,7 @@
 package com.legacy.goodnightsleep;
 
 import com.legacy.goodnightsleep.blocks.BlocksGNS;
+import com.legacy.goodnightsleep.capabilities.player.IPlayerModifier;
 import com.legacy.goodnightsleep.items.tools.ItemGNSHoe;
 import com.legacy.goodnightsleep.player.PlayerGNS;
 import com.legacy.goodnightsleep.player.capability.GNSProvider;
@@ -24,12 +25,13 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.Clone;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-//import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+
+import static com.legacy.goodnightsleep.capabilities.GNSCapabilityHandler.*;
 
 public class GNSEventHandler 
 {	
@@ -53,6 +55,20 @@ public class GNSEventHandler
 				EntityPlayer me = (EntityPlayer)event.getEntity();
 				int dim = event.getWorld().provider.getDimension();
 				System.out.println("Player [" + me.getDisplayNameString() + "] join to dimension [" + dim + "]");
+				if(me instanceof IPlayerModifier) {
+					if(((IPlayerModifier)me).getCurDim() != GNSConfig.getDreamDimensionID() && ((IPlayerModifier)me).getCurDim() != GNSConfig.getNightmareDimensionID()) {
+						System.out.println("Welcome to reality, [" + me.getDisplayNameString() + "]");
+					}
+					else if(((IPlayerModifier)me).getCurDim() == GNSConfig.getDreamDimensionID() || ((IPlayerModifier)me).getCurDim() == GNSConfig.getNightmareDimensionID()) {
+						System.out.println("Have a sweet dreams, [" + me.getDisplayNameString() + "]");
+					}
+					((IPlayerModifier)me).setCurDim(me.dimension);					
+				}
+				if(me.hasCapability(CAPABILITY_PLAYERMOD, null)) {
+					IPlayerModifier q = me.getCapability(CAPABILITY_PLAYERMOD, null);
+					System.out.println("Teleport from [" + q.getCurDim() + "] to [" + me.dimension + "]");
+					q.setCurDim(me.dimension);
+				}
 			}
 		}
 	}
