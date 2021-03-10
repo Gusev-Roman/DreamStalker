@@ -26,4 +26,8 @@ public class CommonProxy
 		FMLCommonHandler.instance().bus().register(event);
 		MinecraftForge.EVENT_BUS.register(event);
 	}
+
+	public void openBedGui(){
+		// not for a server!
+	}
 }

@@ -2,6 +2,7 @@ package com.legacy.goodnightsleep.blocks;
 
 import java.util.Random;
 
+import com.legacy.goodnightsleep.GoodNightSleep;
 import com.legacy.goodnightsleep.entities.tile.TileEntityLuxuriousBed;
 import com.legacy.goodnightsleep.entities.tile.TileEntityStrangeBed;
 import com.legacy.goodnightsleep.entities.tile.TileEntityWretchedBed;
@@ -42,6 +43,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * Горизонтальный блок в отличие от простого обладает аттрибутом FACING 
+ */
 public class BlockGNSBed extends BlockHorizontal implements ITileEntityProvider
 {
     public static final PropertyEnum<BlockGNSBed.EnumPartType> PART = PropertyEnum.<BlockGNSBed.EnumPartType>create("part", BlockGNSBed.EnumPartType.class);
@@ -59,6 +63,7 @@ public class BlockGNSBed extends BlockHorizontal implements ITileEntityProvider
 
     /**
      * Get the MapColor for this Block and the given BlockState
+     * возможность выбора разного цвета (чего?) для разных кроватей отключена
      */
     public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {
@@ -77,6 +82,7 @@ public class BlockGNSBed extends BlockHorizontal implements ITileEntityProvider
         return MapColor.CLOTH;
     }
 
+    //
     public boolean isFullCube(IBlockState state)
     {
         return false;
@@ -90,11 +96,15 @@ public class BlockGNSBed extends BlockHorizontal implements ITileEntityProvider
         return false;
     }
 
+    /**
+     * Действие происходит по эвентам. Чтобы вместо них открыто GUI нужно сперва запретить действие в эвенте.
+     */
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
-        if (worldIn.isRemote)
+        if (!worldIn.isRemote)
         {
-            return true;
+            
+            return GoodNightSleep.proxy.openBedGui();   //true;
         }
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
     }
@@ -159,7 +169,7 @@ public class BlockGNSBed extends BlockHorizontal implements ITileEntityProvider
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return state.getValue(PART) == BlockGNSBed.EnumPartType.FOOT ? Items.AIR : Items.BED;
+        return state.getValue(PART) == BlockGNSBed.EnumPartType.FOOT ? Items.AIR : Items.BED; // задняя часть ничего не дропает, передняя дропает итем-кровать (которую?)
     }
 
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
@@ -285,6 +295,7 @@ public class BlockGNSBed extends BlockHorizontal implements ITileEntityProvider
     /**
      * Get the actual Block state of this Block at the given position. This applies properties not visible in the
      * metadata, such as fence connections.
+     * дле кровати этот метод возвращает статус занято/свободно
      */
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {

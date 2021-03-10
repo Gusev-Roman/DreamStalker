@@ -30,7 +30,7 @@ public class GoodNightSleep
 	public static CommonProxy proxy;
 
 	/**
-	 * Этот метод исполняется исключительно на стороне клиента (почему??)
+	 * Эвенты преинициализации, инициализации и постинициализации дропаются по одному разу, а не параллельно для серверной и клиентской частей!
 	 */
 	@EventHandler
 	public void preInitialization(FMLPreInitializationEvent event)
@@ -40,10 +40,8 @@ public class GoodNightSleep
 		// регистрация событий регистрации, поэтому помещается в преинит
 		CommonProxy.registerEvent(new RegistryEventHandler());
 		// перехват событий спавна сущностей - внутри изменение их параметров (сюда же можно добавить наши фишки!?)
-		// похоже, причина тут: зарегили хэндлер, но еще не готов преинит
 		CommonProxy.registerEvent(new GNSEntityEvents());
-		// А может, просто рано вызвали??
-		proxy.preInitialization();
+		proxy.preInitialization();		// в случае runClient - исполняются клиентские процедуры, в случае runServer - процедуры из CommonProxy
 		GNSCapabilityHandler.register();
 		System.out.println("preInitialization() done!");		
 	}
