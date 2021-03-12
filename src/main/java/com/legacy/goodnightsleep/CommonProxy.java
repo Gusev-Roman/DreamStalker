@@ -27,7 +27,8 @@ public class CommonProxy
 		MinecraftForge.EVENT_BUS.register(event);
 	}
 
-	public void openBedGui(){
+	public boolean openBedGui(){
 		// not for a server!
+		return false;
 	}
 }

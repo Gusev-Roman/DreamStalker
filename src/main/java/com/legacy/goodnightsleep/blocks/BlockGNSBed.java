@@ -103,7 +103,6 @@ public class BlockGNSBed extends BlockHorizontal implements ITileEntityProvider
     {
         if (!worldIn.isRemote)
         {
-            
             return GoodNightSleep.proxy.openBedGui();   //true;
         }
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);

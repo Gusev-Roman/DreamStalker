@@ -40,8 +40,9 @@ public class ClientProxy extends CommonProxy
 	 * Open bed GUI on client side
 	 */
 	@Override
-	public void openBedGui()
+	public boolean openBedGui()
 	{
-    	Minecraft.getMinecraft().displayGuiScreen(new DreamStakerGui());
+    	//Minecraft.getMinecraft().displayGuiScreen(new DreamStalkerGui());
+		return true;
 	}
 }

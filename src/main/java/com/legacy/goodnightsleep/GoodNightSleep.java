@@ -18,6 +18,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 @Mod(name = VariableConstants.NAME, version = VariableConstants.VERSION, modid = VariableConstants.MODID, updateJSON = "https://gist.githubusercontent.com/Lachney/30ab83d5fe6bd534880ba6efb8f958a3/raw/good-nights-sleep-changelog.json")
 public class GoodNightSleep 
@@ -57,6 +58,7 @@ public class GoodNightSleep
 		GNSSmelting.initialization();
 
 		proxy.initialization();
+		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());	// шаг 1. Регистрируем хэндлер на стадии инициализации
 		CommonProxy.registerEvent(new GNSOverworldWorldEvent());
 		CommonProxy.registerEvent(new GNSEventHandler());
 	}
