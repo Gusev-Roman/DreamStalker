@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.inventory.*;
+import com.legacy.goodnightsleep.entities.tile.ITileGui;
 
 
 public class ContainerBed<T extends ITileGui> extends Container
