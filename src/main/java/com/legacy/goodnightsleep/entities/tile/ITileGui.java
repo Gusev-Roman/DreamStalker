@@ -2,10 +2,11 @@ package com.legacy.goodnightsleep.entities.tile;
 
 import java.util.Set;
 
-import nc.network.PacketHandler;
-import nc.network.tile.TileUpdatePacket;
+//import nc.network.PacketHandler;
+//import nc.network.tile.TileUpdatePacket;
 import net.minecraft.entity.player.*;
-
+/*
+// этот класс пока отключен от мода
 public interface ITileGui<PACKET extends TileUpdatePacket> extends ITile {
 	
 	public int getGuiID();
@@ -46,3 +47,4 @@ public interface ITileGui<PACKET extends TileUpdatePacket> extends ITile {
 		return 0;
 	}
 }
+*/
