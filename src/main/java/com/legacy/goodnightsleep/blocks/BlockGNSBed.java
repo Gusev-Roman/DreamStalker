@@ -1,8 +1,10 @@
 package com.legacy.goodnightsleep.blocks;
 
 import java.util.Random;
+import javax.annotation.Nullable;
 
 import com.legacy.goodnightsleep.GoodNightSleep;
+import com.legacy.goodnightsleep.registry.VariableConstants;
 import com.legacy.goodnightsleep.entities.tile.TileEntityLuxuriousBed;
 import com.legacy.goodnightsleep.entities.tile.TileEntityStrangeBed;
 import com.legacy.goodnightsleep.entities.tile.TileEntityWretchedBed;
@@ -28,7 +30,7 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityBed;
+import net.minecraft.tileentity.TileEntityBed;  // для чего нам отсылка к ванили?
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -44,13 +46,14 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- * Горизонтальный блок в отличие от простого обладает аттрибутом FACING 
+ * Двойной блок в отличие от простого обладает аттрибутом FACING 
  */
 public class BlockGNSBed extends BlockHorizontal implements ITileEntityProvider
 {
     public static final PropertyEnum<BlockGNSBed.EnumPartType> PART = PropertyEnum.<BlockGNSBed.EnumPartType>create("part", BlockGNSBed.EnumPartType.class);
     protected static final AxisAlignedBB BED_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5625D, 1.0D);
 
+    // конструктор вызывается трижды, причем только на клиенте, на стадии преинита
     public BlockGNSBed()
     {
         super(Material.CLOTH);
@@ -59,11 +62,13 @@ public class BlockGNSBed extends BlockHorizontal implements ITileEntityProvider
         this.setSoundType(SoundType.WOOD);
         this.disableStats();
         this.setHardness(0.2F);
+        //VariableConstants.log.info("*** BlockGNSBed created!");
     }
 
     /**
      * Get the MapColor for this Block and the given BlockState
      * возможность выбора разного цвета (чего?) для разных кроватей отключена
+     * видимо это цвет точки на ванильной карте
      */
     public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {
@@ -103,6 +108,7 @@ public class BlockGNSBed extends BlockHorizontal implements ITileEntityProvider
     {
         if (!worldIn.isRemote)
         {
+            VariableConstants.log.info("*openBedGui*");
             return GoodNightSleep.proxy.openBedGui();   //true;
         }
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
@@ -294,7 +300,7 @@ public class BlockGNSBed extends BlockHorizontal implements ITileEntityProvider
     /**
      * Get the actual Block state of this Block at the given position. This applies properties not visible in the
      * metadata, such as fence connections.
-     * дле кровати этот метод возвращает статус занято/свободно
+     * дле кровати этот метод возвращает статус занято/свободно (?)
      */
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {
@@ -357,16 +363,29 @@ public class BlockGNSBed extends BlockHorizontal implements ITileEntityProvider
     /**
      * Returns a new instance of a block's tile entity class. Called on placing the block.
      * !!! implements @ITileEntityProvider
+     * де-факто у нас есть два блока, и они связаны
+     * каждому падает этот запросец
+     * 
      */
+    @Nullable
     public TileEntity createNewTileEntity(World worldIn, int meta)
     {
     	if (this == BlocksGNS.luxurious_bed)
     	{
     		return new TileEntityLuxuriousBed();
     	}
+        // Ошибка - для каждой половины кровати создается отдельное TE
     	else if (this == BlocksGNS.strange_bed)
     	{
-    		return new TileEntityStrangeBed();
+            //if (this. //state.getValue(PART) == BlockGNSBed.EnumPartType.HEAD){
+                //if(isHeadPiece(this.metadata)){
+            // как бы вычислить подвид блока, если нет коордов?
+            VariableConstants.log.info("*** this is HEAD!");
+                //}
+                System.out.println("*** Creating our TileEntityStrangeBed");
+                return new TileEntityStrangeBed();
+            //}
+    		//else return null;   // в ногах правды нет
     	}
     	else
     	{
@@ -374,7 +393,8 @@ public class BlockGNSBed extends BlockHorizontal implements ITileEntityProvider
     	}
     }
 
-    @SideOnly(Side.CLIENT)
+    // почему сие актуально только для клиента??
+    //@SideOnly(Side.CLIENT)
     public static boolean isHeadPiece(int metadata)
     {
         return (metadata & 8) != 0;

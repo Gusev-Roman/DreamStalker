@@ -7,6 +7,8 @@ import java.util.Set;
 import net.minecraft.entity.player.*;
 /*
 // этот класс пока отключен от мода
+// представляет собой интерфейс, реализующий IInventory
+
 public interface ITileGui<PACKET extends TileUpdatePacket> extends ITile {
 	
 	public int getGuiID();

@@ -54,31 +54,31 @@ public class ItemStrangeBed extends Item
 
 	            if (!flag)
 	            {
-	                pos = pos.up();
+	                pos = pos.up();	// если кликнули на блок, который нельзя примять, кровать ставится блоком выше!
 	            }
 
 	            int i = MathHelper.floor((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 	            EnumFacing enumfacing = EnumFacing.byHorizontalIndex(i);
-	            BlockPos blockpos = pos.offset(enumfacing);
+	            BlockPos blockpos = pos.offset(enumfacing);		// позиция сопряженного блока
 	            ItemStack itemstack = player.getHeldItem(hand);
 
 	            if (player.canPlayerEdit(pos, facing, itemstack) && player.canPlayerEdit(blockpos, facing, itemstack))
 	            {
 	                IBlockState iblockstate1 = worldIn.getBlockState(blockpos);
-	                boolean flag1 = iblockstate1.getBlock().isReplaceable(worldIn, blockpos);
-	                boolean flag2 = flag || worldIn.isAirBlock(pos);
+	                boolean flag1 = iblockstate1.getBlock().isReplaceable(worldIn, blockpos);	// например, трава
+	                boolean flag2 = flag || worldIn.isAirBlock(pos);						// слегка странно, что воздух не относится к заменяемым блокам
 	                boolean flag3 = flag1 || worldIn.isAirBlock(blockpos);
 
 	                if (flag2 && flag3 && worldIn.getBlockState(pos.down()).isTopSolid() && worldIn.getBlockState(blockpos.down()).isTopSolid())
 	                {
 	                    IBlockState iblockstate2 = BlocksGNS.strange_bed.getDefaultState().withProperty(BlockGNSBed.FACING, enumfacing).withProperty(BlockGNSBed.PART, BlockGNSBed.EnumPartType.FOOT);
-	                    worldIn.setBlockState(pos, iblockstate2, 10);
-	                    worldIn.setBlockState(blockpos, iblockstate2.withProperty(BlockGNSBed.PART, BlockGNSBed.EnumPartType.HEAD), 10);
+	                    worldIn.setBlockState(pos, iblockstate2, 10);	// куда кликнули - там ноги
+	                    worldIn.setBlockState(blockpos, iblockstate2.withProperty(BlockGNSBed.PART, BlockGNSBed.EnumPartType.HEAD), 10);	// а блоком далее - подушка
 	                    SoundType soundtype = iblockstate2.getBlock().getSoundType(iblockstate2, worldIn, pos, player);
 	                    worldIn.playSound((EntityPlayer)null, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
 	                    TileEntity tileentity = worldIn.getTileEntity(blockpos);
 
-	                    if (tileentity instanceof TileEntityStrangeBed)
+	                    if (tileentity instanceof TileEntityStrangeBed)	// выходит, что ТЕ наследовались от этого предка?
 	                    {
 	                        //((TileEntityGNSBed)tileentity).setType(true);
 	                    }
@@ -87,7 +87,7 @@ public class ItemStrangeBed extends Item
 
 	                    if (tileentity1 instanceof TileEntityStrangeBed)
 	                    {
-	                    	//((TileEntityGNSBed)tileentity).setType(true);;
+	                    	//((TileEntityGNSBed)tileentity).setType(true);
 	                    }
 
 	                    worldIn.notifyNeighborsRespectDebug(pos, block, false);

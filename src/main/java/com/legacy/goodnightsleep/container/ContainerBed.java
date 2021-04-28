@@ -51,6 +51,7 @@ public class ContainerBed /*<T extends ITileGui>*/ extends Container
 		}
 	}
 	/*	непонятный момент - откуда клиентский код в контейнере
+		По уточненной информации, контейнер создается с обеих сторон! Поэтому данный метод должен быть валиден!
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void updateProgressBar(int id, int data) {

@@ -2,6 +2,7 @@ package com.legacy.goodnightsleep.entities.tile;
 
 import com.legacy.goodnightsleep.blocks.BlockGNSBed;
 import com.legacy.goodnightsleep.items.ItemsGNS;
+import com.legacy.goodnightsleep.registry.VariableConstants;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
@@ -9,9 +10,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.entity.player.EntityPlayer;
+
+// вместо IInventory использовать кастомный ITileInventory
 
 public class TileEntityStrangeBed extends TileEntity implements IInventory
 {
+    private static int[] fields = {0, 0, 0, 0};
     /**
      * тут тоже нет ни getBedType() ни setBedType()
      * TODO: имплементировать net.minecraft.inventory.IInventory
@@ -76,5 +81,73 @@ public class TileEntityStrangeBed extends TileEntity implements IInventory
     public int getSizeInventory() {
         //return this.slots.size();
         return 3;
+    }
+    @Override
+    public int getField(int id){
+        return fields[id];
+    }
+    /**
+     * Тут нужно организовать фильтрацию входящих предметов, чтобы в слот вставали только те предметы, которые нужны для работы механизма
+     */
+    @Override
+    public boolean isItemValidForSlot(int id,ItemStack stack){
+        return true;
+    }
+    @Override
+    public void closeInventory(EntityPlayer player){
+        System.out.println("*** Player closes his bed's inventory!");
+    }
+    @Override
+    public void openInventory(EntityPlayer player){
+        System.out.println("*** Player opens his bed's inventory!");
+    }
+    /**
+     * Метод может быть использован для ограничения доступа пользователя к GUI, идентифицировать правильнее по UID. На начальном этапе защиты нет.
+     */
+    @Override
+    public boolean isUsableByPlayer(EntityPlayer player){
+        return true;
+    }
+    @Override
+    public int getInventoryStackLimit(){
+        return 1;   // only one item must be installed at any slot
+    }
+    @Override 
+    public void setInventorySlotContents(int id,ItemStack stack){
+        // тут тоже можно устраивать проверку на вилидность итемов
+        // стоп! А как мы получим доступ к инвентарю, если он в классе контейнера а не в этом???
+        return;
+    }
+
+    @Override
+    public ItemStack removeStackFromSlot(int slot){
+        return null;
+    }
+    // Иногда весь код, используемый во всех контейнерах, выносится в интерфейс
+    @Override
+    public ItemStack decrStackSize(int index,int count){
+        // проверять ли count на наличие предмета? как минимум проверить содержимое слота на null
+        // можно переадресовать весь этот код нужному слоту - пусть он делает работу
+        // decrStackSize(int amount) слота
+        // но предварительно проверим номер слота на валидность, это просто
+        return null;
+    }
+    @Override
+    public ItemStack getStackInSlot(int index){
+        return null;
+    }
+    // когда в слоты можно будет класть предметы, придется делать проверку!
+    @Override
+    public boolean isEmpty(){
+        return true;
+    }
+    // имя чего? GUI? или контейнера?
+    @Override
+    public boolean hasCustomName(){
+        return false;
+    }
+    @Override
+    public String getName(){
+        return "container";         // если это название GUI, оно должно быть задано в каждом из производных классов!
     }
 }

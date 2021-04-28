@@ -190,6 +190,8 @@ public class GNSEventHandler
 	 * Вот она, механика переноса в сон!
 	 * Удивительно, что имя функции может быть любым...
 	 * Сюда попадает при клике правой кнопкой по любому блоку!
+	 * 
+	 * Выключил телепорты для красной кровати, теперь она простой блок с GUI
 	 */
 	@SubscribeEvent
 	public void haveDream(PlayerInteractEvent.RightClickBlock event)
@@ -236,11 +238,11 @@ public class GNSEventHandler
 				
 				if (event.getWorld().rand.nextBoolean())
 				{
-					PlayerGNS.get((EntityPlayer) event.getEntityLiving()).teleportPlayer(true);
+					//PlayerGNS.get((EntityPlayer) event.getEntityLiving()).teleportPlayer(true);
 				}
 				else
 				{
-					PlayerGNS.get((EntityPlayer) event.getEntityLiving()).teleportPlayerNightmare(true);
+					//PlayerGNS.get((EntityPlayer) event.getEntityLiving()).teleportPlayerNightmare(true);
 				}
 			}
 		}

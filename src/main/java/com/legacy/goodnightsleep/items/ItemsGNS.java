@@ -78,7 +78,7 @@ public class ItemsGNS
 		// Block Items
 		luxurious_bed_item = register("luxurious_bed_item", new ItemLuxuriousBed());
 		wretched_bed_item = register("wretched_bed_item", new ItemWretchedBed());
-		strange_bed_item = register("strange_bed_item", new ItemStrangeBed());
+		strange_bed_item = register("strange_bed_item", new ItemStrangeBed());			// Регистрация итемов-кроватей!
 
 		positite_gem = register("positite_gem", new ItemGNS(GNSCreativeTabs.items));
 		rainbow_ingot = register("rainbow_ingot", new ItemGNS(GNSCreativeTabs.items));
