@@ -7,9 +7,12 @@ import com.legacy.goodnightsleep.registry.VariableConstants;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.inventory.IInventory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 
 // вместо IInventory использовать кастомный ITileInventory
@@ -17,9 +20,17 @@ import net.minecraft.entity.player.EntityPlayer;
 public class TileEntityStrangeBed extends TileEntity implements IInventory
 {
     private static int[] fields = {0, 0, 0, 0};
+    // обязательные поля для TE
+    protected World world;							// чтоб ссылаться на мир
+    protected BlockPos pos = BlockPos.ORIGIN;		// коорды текущего экземпляра
+    protected boolean tileEntityInvalid;
+    @SuppressWarnings("unused")
+	private int blockMetadata = -1;
+    /** the Block type that this TileEntity is contained within */
+    protected Block blockType; 						// к какому блоку отнoсится данное TE
     /**
      * тут тоже нет ни getBedType() ни setBedType()
-     * TODO: имплементировать net.minecraft.inventory.IInventory
+     * имплементирован net.minecraft.inventory.IInventory
      * Обязательные к имплементации методы:
      * 	getSizeInventory() 
      *  getStackInSlot(int i)
@@ -27,7 +38,7 @@ public class TileEntityStrangeBed extends TileEntity implements IInventory
      * 	openInventory(EntityPlayer player) 
      * 	setInventorySlotContents(int index, ItemStack stack)
      * 
-     * Итого: дурацкая идея с имплементацией инвентаря на сущность, требуется реализация всего набора методов!
+     * Лучшим вариантом будет создать абстрактный интерфейс, в который занести все, относящееся к инвентарю
      */
     public SPacketUpdateTileEntity getUpdatePacket()
     {

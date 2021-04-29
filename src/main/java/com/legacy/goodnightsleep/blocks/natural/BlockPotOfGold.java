@@ -22,6 +22,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+// блок цельнотянутый из BlockCauldron 1.6.2, с именами полей беда
 public class BlockPotOfGold extends BlockCauldron
 {
 
@@ -39,7 +40,6 @@ public class BlockPotOfGold extends BlockCauldron
 		super();
 	}
 
-	@SuppressWarnings("deprecation")
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean isActualState)
     {
         addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_LEGS);

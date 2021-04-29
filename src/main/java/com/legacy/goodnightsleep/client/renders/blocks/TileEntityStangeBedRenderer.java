@@ -1,8 +1,6 @@
 package com.legacy.goodnightsleep.client.renders.blocks;
 
 import com.legacy.goodnightsleep.entities.tile.TileEntityStrangeBed;
-import com.legacy.goodnightsleep.entities.tile.TileEntityWretchedBed;
-
 import net.minecraft.client.model.ModelBed;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
